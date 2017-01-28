@@ -1,7 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,300);
 body {
   height: 100vh;
-  background-color: #f44336;
+  background-color: dimgray;
   -webkit-transition: background-color 300ms;
   transition: background-color 300ms;
   font-family: 'Roboto', sans-serif;
