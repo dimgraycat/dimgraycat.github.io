@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300);
 body {
-  height: 85vh;
+  height: 90vh;
   background-color: dimgray;
   -webkit-transition: background-color 300ms;
   transition: background-color 300ms;
