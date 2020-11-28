@@ -6,3 +6,9 @@ table th {
     background: #fff;
     border-bottom: 2px solid #dee2e6;
 }
+.direct-chat-messages {
+    transform: translate(0,0);
+    height: 80px;
+    overflow: auto;
+    padding: 10px;
+}
