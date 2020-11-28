@@ -1,9 +1,11 @@
 $(function() {
+    let list = {};
     // https://rotool.gungho.jp/monster/item.php?item=7005
     // https://rotool.gungho.jp/monster/result.php?mode=4&name=ICE_GHOST_H
     const strageKey = 'ro-18th-anniversary';
     let strage = localStorage.getItem(strageKey);
     strage = JSON.parse(strage) || {};
+
 
     $.ajax({
         type: 'get',
@@ -11,6 +13,7 @@ $(function() {
         data: {},
         cache : true,
     }).done(function(r, status, xhr) {
+        list = r;
         createDeliveryTable(r.delivery);
         createQuestTable(r.quest);
         createSubjugationTable(r.subjugation);
@@ -20,6 +23,7 @@ $(function() {
         const checked = $(this).prop('checked');
         strage[this.name] = checked;
         localStorage.setItem(strageKey, JSON.stringify(strage));
+        setStoneCount();
     });
 
     function createTable(data, theadTr, tbody, fnc) {
@@ -58,13 +62,28 @@ $(function() {
         const theadTr = $('#QuestTable').find('thead').find('tr');
         const tbody = $('#QuestTable').find('tbody');
         createTable(data, theadTr, tbody, function(tr, item, idx) {
-            const checkIcon = item.skip ? '<i class="fas fa-check"></i>' : '';
+            const checkIcon = item.skip ? '<i class="fas fa-check"></i> <span class="text-muted">'+item.skip+'個</span>' : '';
+            const name = data.prefix + idx;
             tr.append(
                 '<td>'+item.name+'</td>',
                 '<td>'+checkIcon+'</td>'
             );
             return tr;
         });
+        setStoneCount();
+    }
+
+    function setStoneCount() {
+        let stone = 0;
+        let maxStone = 0;
+        Object.values(list.quest.items).forEach(function(item, idx) {
+            const key = list.quest.prefix + idx;
+            stone += (item.skip && strage[key]) ? item.skip : 0;
+            maxStone += item.skip ? item.skip : 0;
+        });
+        console.log(stone, maxStone);
+        const need = maxStone - stone;
+        $('.js-skip-count').text(need + ' / ' + maxStone + ' 個');
     }
 
     function createSubjugationTable(data) {

@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    image: nginx:1.13.5-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ~/www/dimgraycat.github.io/docker/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ~/www/dimgraycat.github.io:/var/www/html
+  app:
+    image: php:7.4.12-fpm-alpine
+    volumes:
+      - ~/www/dimgraycat.github.io:/var/www/html
