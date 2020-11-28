@@ -23,6 +23,10 @@ $(function() {
         const checked = $(this).prop('checked');
         strage[this.name] = checked;
         localStorage.setItem(strageKey, JSON.stringify(strage));
+
+        checked
+            ? $(this).parents('tr').addClass('bg-gray disabled')
+            : $(this).parents('tr').removeClass('bg-gray disabled');
         setStoneCount();
     });
 
@@ -41,6 +45,7 @@ $(function() {
             tr.prepend(
                 '<td class="text-center"><input name="'+name+'" type="checkbox" '+ checked +'></td>',
             );
+            if (checked) tr.addClass('bg-gray disabled');
             tbody.append(tr);
         });
     }
@@ -81,7 +86,6 @@ $(function() {
             stone += (item.skip && strage[key]) ? item.skip : 0;
             maxStone += item.skip ? item.skip : 0;
         });
-        console.log(stone, maxStone);
         const need = maxStone - stone;
         $('.js-skip-count').text(need + ' / ' + maxStone + ' 個');
     }
