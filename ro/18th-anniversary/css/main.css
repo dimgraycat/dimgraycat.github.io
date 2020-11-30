@@ -12,3 +12,6 @@ table th {
     overflow: auto;
     padding: 10px;
 }
+td>.form-group {
+  margin: 0;
+}

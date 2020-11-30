@@ -30,6 +30,12 @@ $(function() {
         setStoneCount();
     });
 
+    $(document).on('change', 'input[type="number"]', function() {
+        if (this.value < 0) this.value = 0;
+        strage[this.name] = this.value;
+        localStorage.setItem(strageKey, JSON.stringify(strage));
+    });
+
     function createTable(data, theadTr, tbody, fnc) {
         theadTr.empty();
         theadTr.append('<th class="text-center"><i class="far fa-check-square"></i></th>');
@@ -54,10 +60,14 @@ $(function() {
         const theadTr = $('#DeliveryTable').find('thead').find('tr');
         const tbody = $('#DeliveryTable').find('tbody');
         createTable(data, theadTr, tbody, function(tr, item, idx) {
+            const name = data.prefix + idx + '__preparationCount';
+            const preparationCount = strage[name] ? strage[name] : 0;
             tr.append(
-                '<td>'+item.name+'</td>',
+                '<td>'
+                + item.name + ' <a target="_blank" rel="noopener" href="https://rotool.gungho.jp/monster/item.php?item='+item.itemId+'" class="btn-outline-secondary btn-xs"><i class="fas fa-search"></i></a>'
+                + '</td>',
                 '<td>'+item.count+'</td>',
-                '<td><a target="_blank" href="https://rotool.gungho.jp/monster/item.php?item='+item.itemId+'" class="btn btn-default btn-block btn-sm"><i class="fas fa-search"></i> 検索</a></td>'
+                '<td><div class="form-group"><input type="number" name="'+name+'" class="form-control form-control-sm" value="'+preparationCount+'" placeholder="数値"></div></td>',
             );
             return tr;
         });
